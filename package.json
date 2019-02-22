@@ -3,30 +3,40 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "build:test": "vue-cli-service build --mode test",
     "build:beta": "vue-cli-service build --mode beta",
     "lint": "vue-cli-service lint",
-    "inspect":"vue-cli-service inspect --mode production",
-    "inspectwebpack":"vue inspect > output.js"
+    "inspect": "vue inspect --mode production",
+    "inspectwebpack": "vue inspect --mode production > output.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "lib-flexible": "^0.3.2",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "image-webpack-loader": "^3.3.0",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "image-webpack-loader": "^4.6.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "postcss-px2rem": "^0.3.0",
+    "vue-template-compiler": "^2.5.21",
+    "vconsole-webpack-plugin": "^1.4.2"
+  },
+  "postcss": {
+    "plugins": {
+      "postcss-px2rem": {
+        "remUnit": 75
+      }
+    }
   }
 }

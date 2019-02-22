@@ -1,5 +1,7 @@
 let path = require('path')
 let glob = require('glob')
+const vConsolePlugin = require('vconsole-webpack-plugin'); // 引入 移动端模拟开发者工具 插件 （另：https://github.com/liriliri/eruda）
+
 
 function resolve (dir) {
     return path.join(__dirname, dir)
@@ -47,24 +49,38 @@ module.exports = {
     },
   
 	devServer: {
-		disableHostCheck: true, // 加上这段
+		hot:true
     },
   
 	productionSourceMap: false,
+
+	configureWebpack: config => {
+		//非生产环境
+		let pluginsDev = [
+			//移动端模拟开发者工具(https://github.com/diamont1001/vconsole-webpack-plugin  https://github.com/Tencent/vConsole)
+			new vConsolePlugin({
+				filter: [], // 需要过滤的入口文件
+				enable: true
+			}),
+		];
+
+		if(process.env.NODE_ENV !== 'production') {
+			config.plugins = [...config.plugins, ...pluginsDev];
+		} 
+	},
 	
 	chainWebpack: (config)=>{
 		// 图片压缩
 		config.module
-		  .rule('images')
-		  .use('image-webpack-loader')
-		  .loader('image-webpack-loader')
+			.rule('images')
+			.use('image-webpack-loader')
+			.loader('image-webpack-loader')
 
 		config.resolve.alias
 			.set('@', resolve('src'))
 			.set('assets',resolve('src/assets'))
 			.set('components',resolve('src/components'))
 			.set('utils',resolve('src/utils'))
-			.set('api',resolve('src/api'))
 
 		// 公共资源提取，
 		// vendors提取的是第三方公共库(满足提取规则的node_modules里面的且页面引入的)，这些文件会打到dist/js/chunk-vendors.js里面
